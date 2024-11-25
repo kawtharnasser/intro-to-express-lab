@@ -53,8 +53,8 @@ const collectibles = [
 app.get('/collectibles/:index', (req, res) => {
   const idx = req.params.index //contain the idex from the url
 
-  if (!idx || idx < 0 || idx >= collectibles.length) {
-    //if in the list
+  if (idx < 0 || idx >= collectibles.length) {
+    //if not in the list, or falsy
     return res.send('This item is not yet in stock. Check back soon!')
   }
 
@@ -100,15 +100,21 @@ app.get('/shoes', (req, res) => {
   //arrayName.filter(conditionFunction)
 
   if (minPrice) {
-    filteredShoes = shoes.filter((shoe) => shoe.price >= minPrice)
+    filteredShoes = shoes.filter((shoe) => {
+      return shoe.price >= minPrice
+    })
   }
 
   if (maxPrice) {
-    filteredShoes = shoes.filter((shoe) => shoe.price <= maxPrice)
+    filteredShoes = shoes.filter((shoe) => {
+      return shoe.price <= maxPrice
+    })
   }
 
   if (type) {
-    filteredShoes = filteredShoes.filter((shoe) => shoe.type === type)
+    filteredShoes = filteredShoes.filter((shoe) => {
+      return shoe.type === type
+    })
   }
 
   res.json(filteredShoes) //print in json format
